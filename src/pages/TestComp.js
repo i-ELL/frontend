@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
 import _ from 'lodash';
+import {MDBBtn} from "mdb-react-ui-kit";
 
 const TestComp = () => {
-    const userId = 353; // Replace with the actual user ID
+    const userId = localStorage.getItem('userId');
     const [data, setData] = useState(null);
     const [answer, setAnswer] = useState(null);
+    console.log(answer)
+
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [currentQuestion, setCurrentQuestion] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -17,6 +22,12 @@ const TestComp = () => {
         console.log(data);
     }, [userId]);
 
+    useEffect(() => {
+        if (data && data.length > 0 && currentQuestionIndex < data[0].tests.length) {
+            setCurrentQuestion(data[0].tests[currentQuestionIndex]);
+        }
+    }, [data, currentQuestionIndex]);
+
     if (data === null) {
         return <div>Loading...</div>;
     }
@@ -26,6 +37,7 @@ const TestComp = () => {
 
     const handleSubmit = (e, testId) => {
         const translateUsers = e.target.value;
+
         const dataToSend = {
             translateUsers,
             testId,
@@ -52,46 +64,69 @@ const TestComp = () => {
 
     };
 
+    const postTestCollection = async (event) => {
+        event.preventDefault();
+        try {
+            const response = await axios.post(`/testCollection/auto/${userId}`);
+            console.log(response.status);
+
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    };
+
+    const nextQuestion = () => {
+        setCurrentQuestionIndex(currentQuestionIndex + 1);
+    };
+
+    const resetRadioButtons = (questionId) => {
+        const radioButtons = document.getElementsByName(`question-${questionId}`);
+        for (let i = 0; i < radioButtons.length; i++) {
+            radioButtons[i].checked = false;
+        }
+    };
+
     return (
         <div>
-            {data.map((item) => (
-                <div key={item.id}>
-                    {item.tests &&
-                        item.tests.map((test, index) => (
-                            <div key={test.id}>
-                                <p>Вопрос №{index + 1}</p>
-                                <p>Выберите перевод слова {test.word1.word} </p>
-                                <ul>
-                                    {[
-                                        { value: test.word1.translate, label: test.word1.translate },
-                                        { value: test.word2.translate, label: test.word2.translate },
-                                        { value: test.word3.translate, label: test.word3.translate },
-                                        { value: test.word4.translate, label: test.word4.translate },
-                                    ].map((option, index) => (
-                                        <li key={index}>
-                                            <label>
-                                                <input
-                                                    type="radio"
-                                                    name={`question-${test.id}`} // Use the test id as the name to ensure separate groups for each question
-                                                    value={option.value}
-                                                    onChange={(e) => {
-                                                        handleSubmit(e, test.id);
-                                                        console.log(`Selected option: ${e.target.value}`);
-                                                    }}
-
-                                                />
-                                                {option.label}
-                                            </label>
-                                        </li>
-                                    ))}
-                                </ul>
-                                {answer !== null && answer && <p>Правильный ответ</p>}
-                                {answer !== null && !answer && <p>Неправильный ответ</p>}
-                                <p>Ваш ответ {Cor}</p>
-                            </div>
+            <MDBBtn style={{display: 'flex', marginTop: '5%'}} className='mb-4 gradient-custom-4 w-10'
+                    onClick={(event) => {
+                        postTestCollection(event)
+                    }}>Добавить тест</MDBBtn>
+            {currentQuestion && (
+                <div>
+                    <p>Вопрос №{currentQuestionIndex + 1}</p>
+                    <p>Выберите перевод слова {currentQuestion.word1.word} </p>
+                    <ul>
+                        {[
+                            {value: currentQuestion.word1.translate, label: currentQuestion.word1.translate},
+                            {value: currentQuestion.word2.translate, label: currentQuestion.word2.translate},
+                            {value: currentQuestion.word3.translate, label: currentQuestion.word3.translate},
+                            {value: currentQuestion.word4.translate, label: currentQuestion.word4.translate},
+                        ].map((option, index) => (
+                            <li key={index}>
+                                <label>
+                                    <input
+                                        disabled={answer !== null}
+                                        type="radio"
+                                        name={`question-${currentQuestion.id}`} // Use the test id as the name to ensure separate groups for each question
+                                        value={option.value}
+                                        onChange={(e) => {
+                                            handleSubmit(e, currentQuestion.id);
+                                            console.log(`Selected option: ${e.target.value}`);
+                                        }}
+                                    />
+                                    {option.label}
+                                </label>
+                            </li>
                         ))}
+                    </ul>
+                    {answer !== null && answer && <p>Правильный ответ</p>}
+                    {answer !== null && !answer && <p>Неправильный ответ</p>}
+                    <p>Ваш ответ {Cor}</p>
+                    {currentQuestionIndex < data[0].tests.length - 1 && (
+                        <MDBBtn disabled={answer === null} onClick={() => { setAnswer(null); nextQuestion(); resetRadioButtons(currentQuestion.id); }} >Next</MDBBtn>                    )}
                 </div>
-            ))}
+            )}
         </div>
     );
 };

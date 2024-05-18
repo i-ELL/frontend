@@ -77,22 +77,15 @@ const WelcomePage = () => {
                             <li key={index}>{benefit}</li>
                         ))}
                     </ul>
-                    <MDBBtn className='mb-4 w-40 gradient-custom-4'  onClick={()=> navigate('/reg')} style={{
-
-                        color: 'white',
-                        padding: '15px 32px',
-                        textAlign: 'center',
-                        textDecoration: 'none',
-                        display: 'inline-block',
-                        fontSize: '16px',
-                        margin: '4px 2px',
-                        cursor: 'pointer',
-                        border: 'none',
-                        borderRadius: '4px',
-                        boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.3)'
-                    }}>
+                    <MDBBtn className='mb-4 w-40 gradient-custom-4'  onClick={()=> navigate('/reg')} style={{fontSize: '16px'}} >
                         Присоединиться
                     </MDBBtn>
+
+                    <MDBBtn className='mb-4 w-40 gradient-custom-4'  onClick={()=> navigate('/login')} style={{fontSize: '16px'}}>
+                        Вы уже с нами
+                    </MDBBtn>
+
+
                 </div>
             </div>
         </div>

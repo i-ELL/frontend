@@ -39,6 +39,7 @@ export default function Cards()  {
                     console.error('Error fetching words: ', error);
                 });
         }
+
     }, [userId]);
 
     const [sentences, setSentences] = useState([]);

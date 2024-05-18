@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {
     MDBBtn,
     MDBContainer,
@@ -90,6 +90,10 @@ function Reg() {
                         <MDBInput wrapperClass='mb-4' label='Повторите ваш пароль' size='lg' id='form4' name='confirmPassword' type='password'  onChange={handleInputChange} error={errors.confirmPassword}/>
 
                         <ErrorMessages errorMessages={errorMessages} />
+
+                        <Link to="/login">
+                            <p className="text-center">Уже зарегистрированы?</p>
+                        </Link>
                         <MDBBtn className='mb-4 w-100 gradient-custom-4' size='lg' type='submit'>Зарегистриорваться!</MDBBtn>
                     </form>
                 </MDBCardBody>

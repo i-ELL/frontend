@@ -62,7 +62,10 @@ export default function EditButton() {
                                 </div>
                             </div>
                             <Link to="/newpage">
-                                <MDBBtn className="my-button">Go to new page</MDBBtn>
+                                <MDBBtn className='w-100 mb-4 gradient-custom-4' size='md'>Перейти к созданию слов</MDBBtn>
+                            </Link>
+                            <Link to="/test">
+                                <MDBBtn className='w-100 mb-4 gradient-custom-4' size='md'>Перейти к тестам</MDBBtn>
                             </Link>
                             <MDBCardBody className="text-black p-4">
                                 <div className="mb-5">
