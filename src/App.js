@@ -12,6 +12,7 @@ import Test from "./pages/test";
 import TestComp from "./pages/TestComp";
 import Gen from "./pages/gen";
 import WelcomePage from "./pages/WelcomePage";
+import TestCollection from "./pages/testCollection";
 
 
 
@@ -29,6 +30,7 @@ const App = () => {
                 <Route path="/mod" element={<Modal />} />
                 <Route path="/test" element={<TestComp />} />
                 <Route path="/gen" element={<Gen />} />
+                <Route path="/testcol" element={<TestCollection />} />
 
             </Routes>
         </Router>

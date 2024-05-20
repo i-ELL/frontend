@@ -2,11 +2,14 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import _ from 'lodash';
 import {MDBBtn} from "mdb-react-ui-kit";
+import {Link} from "react-router-dom";
 
 const TestComp = () => {
     const userId = localStorage.getItem('userId');
     const [data, setData] = useState(null);
     const [answer, setAnswer] = useState(null);
+
+    const [correct, setCorrect] = useState(null);
     console.log(answer)
 
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -56,6 +59,8 @@ const TestComp = () => {
                 console.log(`ID: ${id}`);
                 console.log(`Перевод: ${translate}`);
                 setAnswer(`${correct}`);
+                setCorrect(correct);
+                console.log(`сет коррект: `, correct);
                 Cor = `${correct}`;
                 console.log(`Правильный ответ: `, Cor);
 
@@ -87,16 +92,17 @@ const TestComp = () => {
     };
 
     return (
-        <div>
+        <div >
             <MDBBtn style={{display: 'flex', marginTop: '5%'}} className='mb-4 gradient-custom-4 w-10'
                     onClick={(event) => {
                         postTestCollection(event)
                     }}>Добавить тест</MDBBtn>
             {currentQuestion && (
-                <div>
-                    <p>Вопрос №{currentQuestionIndex + 1}</p>
-                    <p>Выберите перевод слова {currentQuestion.word1.word} </p>
-                    <ul>
+                <div >
+                    <p style={{display: 'flex', justifyContent: 'center'}}>Вопрос №{currentQuestionIndex + 1}</p>
+                    <p style={{display: 'flex', justifyContent: 'center'}}>Выберите перевод слова {currentQuestion.word1.word} </p>
+                    <div style={{display: 'flex', justifyContent: 'center'}}>
+                    <ul style={{listStyleType: 'none'}}>
                         {[
                             {value: currentQuestion.word1.translate, label: currentQuestion.word1.translate},
                             {value: currentQuestion.word2.translate, label: currentQuestion.word2.translate},
@@ -120,11 +126,25 @@ const TestComp = () => {
                             </li>
                         ))}
                     </ul>
-                    {answer !== null && answer && <p>Правильный ответ</p>}
-                    {answer !== null && !answer && <p>Неправильный ответ</p>}
-                    <p>Ваш ответ {Cor}</p>
+                    </div>
+                    {answer !== null && (
+                        <p style={{display: 'flex', justifyContent: 'center' , color: correct ? 'green' : 'red'}}>{correct ? "Правильный ответ" : "Неправильный ответ"}</p>
+                    )}
+
+                    {/*<p>Ваш ответ {correct}</p>*/}
                     {currentQuestionIndex < data[0].tests.length - 1 && (
-                        <MDBBtn disabled={answer === null} onClick={() => { setAnswer(null); nextQuestion(); resetRadioButtons(currentQuestion.id); }} >Next</MDBBtn>                    )}
+                        <MDBBtn style={{display: 'flex', justifyContent: 'center'}} className='mb-4 gradient-custom-4 w-10' disabled={answer === null} onClick={() => {
+                            setAnswer(null);
+                            nextQuestion();
+                            resetRadioButtons(currentQuestion.id);
+                        }}>Следующий вопрос</MDBBtn>)}
+                    {currentQuestionIndex === data[0].tests.length - 1 && (
+                        <Link to="/lk">
+                        <MDBBtn style={{display: 'flex', justifyContent: 'center'}} className='mb-4 gradient-custom-4 w-10' disabled={answer === null} onClick={() => {
+                            setAnswer(null);
+                            resetRadioButtons(currentQuestion.id);
+                        }}>Завершить тест</MDBBtn>
+                        </Link>)}
                 </div>
             )}
         </div>
