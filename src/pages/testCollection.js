@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import {MDBBtn} from "mdb-react-ui-kit";
 
 const TestCollection = () => {
     const [tests, setTests] = useState([]);
@@ -30,11 +31,30 @@ const TestCollection = () => {
         fetchAnswers();
     }, [tests]);
 
+    const postTestCollection = async (event) => {
+        event.preventDefault();
+        try {
+            const response = await axios.post(`/testCollection/auto/${userId}`);
+            const autoTest = response.data;
+            console.log("create test", autoTest.id);
+            console.log(response.status);
+
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    };
+
     return (
         <div>
+
             <h1 style={{ display: "flex", justifyContent: "center" }}>
                 Ранее пройденные тесты
             </h1>
+
+            <MDBBtn style={{position: "absolute", top: 10, right: 20}} className='mb-4 gradient-custom-4 w-10'
+                    onClick={(event) => {
+                        postTestCollection(event)
+                    }}>Пройти новый тест</MDBBtn>
             <ul>
                 {tests.map((test) => (
                     <li style={{ listStyle: "none", backgroundColor:  'rgba(208,170,74,0.3)', borderRadius: '24px', padding: "2%", margin: "1%" }} key={test.id}>

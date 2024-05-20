@@ -69,16 +69,7 @@ const TestComp = () => {
 
     };
 
-    const postTestCollection = async (event) => {
-        event.preventDefault();
-        try {
-            const response = await axios.post(`/testCollection/auto/${userId}`);
-            console.log(response.status);
 
-        } catch (error) {
-            console.error(error.response.data);
-        }
-    };
 
     const nextQuestion = () => {
         setCurrentQuestionIndex(currentQuestionIndex + 1);
@@ -93,10 +84,7 @@ const TestComp = () => {
 
     return (
         <div >
-            <MDBBtn style={{display: 'flex', marginTop: '5%'}} className='mb-4 gradient-custom-4 w-10'
-                    onClick={(event) => {
-                        postTestCollection(event)
-                    }}>Добавить тест</MDBBtn>
+
             {currentQuestion && (
                 <div >
                     <p style={{display: 'flex', justifyContent: 'center'}}>Вопрос №{currentQuestionIndex + 1}</p>
