@@ -142,7 +142,7 @@ export default function Modal() {
                             {/*))}*/}
                             {inputs.map((input, index) => (
                                 <div key={index}>
-                                    <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Сгенерировать предложение' />
+                                    
                                     <MDBInput
                                         wrapperClass='mb-3'
                                         type="text"
