@@ -42,6 +42,7 @@ const Login = () => {
                 if (passwordGet == pass) {
                     localStorage.setItem('userId', userId);
                     navigate('/lk')
+                    window.location.reload();
                 } else {
                     setErrorMessages(prevErrorMessages => [...prevErrorMessages, "Неверный пароль."]);
                 }
