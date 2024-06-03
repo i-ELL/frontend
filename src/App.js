@@ -13,12 +13,14 @@ import TestComp from "./pages/TestComp";
 import Gen from "./pages/gen";
 import WelcomePage from "./pages/WelcomePage";
 import TestCollection from "./pages/testCollection";
+import Navs from "./pages/Navs"
 
 
 
 const App = () => {
     return (
         <Router>
+            <Navs></Navs>
             <Routes>
                 <Route path="/" element={<WelcomePage />} />
                 <Route path="/about" element={<About />} />

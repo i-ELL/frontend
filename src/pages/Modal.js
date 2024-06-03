@@ -9,6 +9,7 @@ import {
     MDBModalBody,
     MDBModalFooter,
     MDBInput,
+    MDBCheckbox,
 } from 'mdb-react-ui-kit';
 import axios from "axios";
 
@@ -131,6 +132,7 @@ export default function Modal() {
                                 Добавить слово
                             </MDBBtn>
                             {successMessage1 && <p style={{ color: '#6dae81' }}>{successMessage1}</p>}
+
                             {/*<MDBBtn className='mb-4  gradient-custom-4 w-10' style={{width: '150px'}} onClick={handleButtonClick1}>*/}
                             {/*    Добавить предложения*/}
                             {/*</MDBBtn>*/}
@@ -140,6 +142,7 @@ export default function Modal() {
                             {/*))}*/}
                             {inputs.map((input, index) => (
                                 <div key={index}>
+                                    <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Сгенерировать предложение' />
                                     <MDBInput
                                         wrapperClass='mb-3'
                                         type="text"

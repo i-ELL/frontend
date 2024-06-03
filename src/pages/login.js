@@ -56,7 +56,7 @@ const Login = () => {
 
     return (
         <MDBContainer fluid>
-            <div className="p-5 bg-image" style={{ backgroundImage: 'url(https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp)' , backgroundColor: 'rgba(144, 238, 144, 0.7)', height: '500px' }}></div>
+            <div className="p-5 bg-image" style={{ backgroundImage: 'url(https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp)' , backgroundColor: 'rgba(144, 238, 144, 0.7)', height: '500px', background: 'rgba(144, 238, 144, 0.7)' }}></div>
             <MDBCard className='mx-5 mb-5 p-5 shadow-5' style={{ marginTop: '-400px', background: 'hsla(0, 0%, 100%, 0.8)', backdropFilter: 'blur(30px)' }}>
                 <MDBCardBody className='p-5 text-center'
                              style={{width: '380px', marginLeft: 'auto', marginRight: 'auto'}}>

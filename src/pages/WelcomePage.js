@@ -7,6 +7,7 @@ import {
 
 const WelcomePage = () => {
     const navigate = useNavigate()
+    localStorage.clear();
 
 
     const lightGreen = {
