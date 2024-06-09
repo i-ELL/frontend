@@ -100,7 +100,7 @@ export default function Cards()  {
                     <MDBCardImage style={{width: '80%'}} position='top' alt='...' src={word.img}/>
                     <MDBCardBody>
 
-                        <MDBCardLink href='#'>Редактировать</MDBCardLink>
+                        {/*<MDBCardLink href='#'>Редактировать</MDBCardLink>*/}
                     </MDBCardBody>
                 </MDBCard>
             ))}

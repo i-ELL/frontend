@@ -53,7 +53,7 @@ const TestCollection = () => {
             .catch(error => {
                 console.error(error.response.data);
             });
-
+        navigate("/test")
     };
 
 
@@ -91,13 +91,14 @@ const TestCollection = () => {
             <ul>
 
                 <p style={{
-                    display: tests.length === 0 ? "flex" : "none",
+                    display: tests.every((test) => test?.count < 5) || tests.length === 0 ? "flex" : "none",
                     justifyContent: "center",
                     alignItems: "center",
                     height: "90vh"
                 }}>здесь будут ваши пройденные тесты</p>
                 {tests.map((test) => (
                     <li style={{
+                        display:  test?.count < 5 ? "none" : "block",
                         listStyle: "none",
                         backgroundColor: 'rgba(208,170,74,0.3)',
                         borderRadius: '24px',
@@ -105,7 +106,7 @@ const TestCollection = () => {
                         <h3>Пройденный тест</h3>Количество вопросов: {test.count}
                         {test.tests.map((test1, index) => (
                             <div key={test1.id}>
-                                <div style={{padding: "2%", margin: "2%", borderRadius: '24px', backgroundColor :  answers[index] ? 'rgba(144, 238, 144, 0.7)' : 'rgba(248,136,140,0.7)'}}>
+                                <div style={{padding: "2%", margin: "2%", borderRadius: '24px', backgroundColor :  answers[index]?.correct ? 'rgba(144, 238, 144, 0.7)' : 'rgba(248,136,140,0.7)'}}>
                                     <p>Вопрос {index + 1}</p>
                                     <p>Проверяемое слово: {test1.word1.word}</p>
                                     <p>Правильный перевод: {test1.word1.translate}</p>

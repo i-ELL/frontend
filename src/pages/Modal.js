@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
     MDBBtn,
     MDBModal,
@@ -25,6 +25,7 @@ export default function Modal() {
     ]);
 
     const handleAddField = () => {
+        setSuccessMessage2("");
         setInputs([...inputs, { sentence: '', translation: '' }]);
     };
 
@@ -69,48 +70,50 @@ export default function Modal() {
     //const [wordA, setWordA] = useState([]);
 
     //записали слово
-    const handleSubmit = async (event) => {
+    const handleSubmit = useCallback(async (event) => {
         event.preventDefault();
         try {
-            setData({ ...data, userId: userId });
-            const response = await axios.post("/words", data);
+            const newData = { ...data, userId: userId };
+            await setData(newData); // wait for the state to be updated
+            const response = await axios.post("/words", newData);
             console.log(response.status);
             setSuccessMessage1("Слово успешно добавлено!");
         } catch (error) {
             console.error(error.response.data);
         }
-    };
+    }, [data, userId]);
 
     var m;
 
 
 
-    const handleSubmitSen = async (event) => {
+    const handleSubmitSen = useCallback(async (event) => {
         event.preventDefault();
         try {
             const response = await axios.get(`/words/word/${data.word}`);
+            setSuccessMessage2("");
             m = response.data.id;
             console.log(response.status);
             console.log("word id");
             console.log(m);
 
-            // setDataSen({
-            //     wordId: m
-            // });
-            setDataSen({ ...dataSen, wordId:  response.data.id});
-            console.log("ПредложениеЭ");
-            console.log(dataSen.sentence);
-            console.log(dataSen.translate);
-            console.log(dataSen.wordId);
+            const updatedDataSen = { ...dataSen, wordId: response.data.id };
+            setDataSen(updatedDataSen);
 
-            const responseSen = await axios.post("/sentences", dataSen);
+            console.log("ПредложениеЭ");
+            console.log(updatedDataSen.sentence);
+            console.log(updatedDataSen.translate);
+            console.log(updatedDataSen.wordId);
+
+            const responseSen = await axios.post("/sentences", updatedDataSen);
             console.log(responseSen.status);
             setSuccessMessage2("Предложение успешно записано!");
+
 
         } catch (error) {
             console.error(error.response.data);
         }
-    };
+    }, [dataSen, data]);
 
 
 
